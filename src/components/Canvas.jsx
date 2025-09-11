@@ -1,0 +1,82 @@
+import { useRef, useEffect } from "react";
+import canvasSketch from "canvas-sketch";
+import random from "canvas-sketch-util/random";
+import { lerp } from "canvas-sketch-util/math";
+
+
+function Canvas({margin, settings, points, palette, showGrid, totalFigures, randomizeColors}) {
+
+    const canvasRef = useRef(null);
+
+    useEffect(()=>{
+        if (!canvasRef.current) return;
+        
+        
+        const sketch = () => {
+            
+            return ({ context, width, height }) => {
+                context.fillStyle = 'white';
+                context.fillRect(0, 0, width, height);
+                
+                points.forEach(point =>{
+                    context.beginPath();
+                    context.arc(point[0],point[1],10,0,Math.PI*2);
+                    context.fillStyle = showGrid ? 'gray' : 'white';
+                    context.fill();
+                })
+
+                const used_points = [];
+                if(!points || points.length <2) return;
+                while (used_points.length < totalFigures && used_points.length < points.length) {
+                    // console.log(used_points);
+                    const [p1, p2] = random.shuffle(points).slice(0,2);
+                    if (!used_points.includes(p1) && !used_points.includes(p2)) {
+                        used_points.push(p1);
+                        used_points.push(p2);
+                        context.beginPath();
+                        context.moveTo(p1[0],p1[1]);
+                        context.lineTo(p2[0],p2[1]);
+                        // console.log(p1,p2);
+                        // console.log(points)
+                        const [x3, y3] = [p2[0],lerp(margin, settings.dimensions[1] -margin, 1)];
+                        context.lineTo(x3,y3);
+                        const [x4, y4] = [p1[0],lerp(margin, settings.dimensions[1] -margin, 1)];
+                        context.lineTo(x4,y4);
+                        // console.log([x3,y3],[x4,y4]);
+                        context.closePath();
+                        // context.strokeStyle = 'black';
+                        // context.lineWidth = 5;
+                        // context.stroke();
+                        context.fillStyle = random.pick(palette);
+                        const opacity = random.value();
+                        context.filter = `opacity(${opacity})`;
+                        context.fill();
+                    }
+                }
+
+            }
+        }
+
+
+        const sketchInstance = canvasSketch(sketch,{
+            ...settings,
+            canvas: canvasRef.current,});
+        return () => sketchInstance.then((sketch) => sketch.unload()); // Cleanup on unmount
+
+    },[settings, margin, points, palette ]);
+
+
+
+
+    return (
+        <div className="canvas bg-white fill-white drop-shadow-lg col-start-2 rounded-md">
+            <canvas id="canvas" 
+            width="800" height="600"
+            ref={canvasRef}
+            className="mx-auto"
+            />
+        </div>
+    );
+}
+
+export default Canvas;
