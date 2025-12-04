@@ -25,14 +25,17 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rand
                     context.fill();
                 })
 
-                const used_points = [];
+                const used_points = new Set();
                 if(!points || points.length <2) return;
-                while (used_points.length < totalFigures && used_points.length < points.length) {
+                while (used_points.size < totalFigures * 2 && used_points.size < points.length) {
                     // console.log(used_points);
                     const [p1, p2] = random.shuffle(points).slice(0,2);
-                    if (!used_points.includes(p1) && !used_points.includes(p2)) {
-                        used_points.push(p1);
-                        used_points.push(p2);
+                    const key1 = `${p1[0]}, ${p1[1]}`;
+                    const key2 = `${p2[0]}, ${p2[1]}`;
+
+                    if (!used_points.has(key1) && !used_points.has(key2)) {
+                        used_points.add(key1);
+                        used_points.add(key2);
                         context.beginPath();
                         context.moveTo(p1[0],p1[1]);
                         context.lineTo(p2[0],p2[1]);

@@ -7,10 +7,17 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 
-export default function Controls({gridVisible, toggleGrid, handleGenerateNew}){
-    const [gridSize, setGridSize] = useState([6,6]);
-    const[margin, setMargin] = useState(400);
-    const [totalFigures, setTotalFigures] = useState(10);
+export default function Controls({
+    gridVisible, 
+    toggleGrid, 
+    gridSize,
+    setGridSize,
+    margin,
+    setMargin,
+    totalFigures,
+    setTotalFigures,
+    handleGenerateNew}){
+
     const [randomizeColors, setRandomizeColors] = useState(true); 
 
 
@@ -22,8 +29,7 @@ export default function Controls({gridVisible, toggleGrid, handleGenerateNew}){
         setRandomizeColors(!randomizeColors);
     }
 
-    const generateNew = () => {
-        
+    const generateNew = () => {       
         handleGenerateNew(gridSize, margin, totalFigures, randomizeColors);
     }
 
@@ -81,7 +87,7 @@ export default function Controls({gridVisible, toggleGrid, handleGenerateNew}){
                 onClick={handleRandomColor} /> }
             </div>
             <div id="regenerate">
-                <p className='sm:text-sm/6 text-left'>Generate:</p>
+                <p className='sm:text-sm/6 text-left'>Regenerate:</p>
                 <AutorenewIcon 
                 onClick={generateNew}/>
             </div>

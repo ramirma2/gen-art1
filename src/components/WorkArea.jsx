@@ -13,10 +13,12 @@ export default function WorkArea() {
     const palette = useRandomPalette();
     const [showGrid, setShowGrid] = useState(false);
     const [totalFigures, setTotalFigures] = useState(10);
+    const [gridSize, setGridSize] = useState([6,6]);
+    
 
     useEffect(()=>{
-        calculatePointsForGrid(6,6);
-    },[])
+        calculatePointsForGrid(gridSize[0],gridSize[1]);
+    },[gridSize, margin]);
 
     const handleGridToggle = () => {
         setShowGrid(!showGrid);
@@ -57,7 +59,8 @@ export default function WorkArea() {
             margin={margin} 
             settings={{
                 dimensions:dimensions,
-                canvas:null}}
+                canvas:null
+            }}
                 points={points}
                 totalFigures = {totalFigures}
                 randomizeColors = {true}
@@ -66,7 +69,13 @@ export default function WorkArea() {
                 gridVisible={showGrid }
                 toggleGrid={handleGridToggle}
                 changeGridSize= {handleGridChange}
-                handleGenerateNew={handleGenerateNew}/> 
+                handleGenerateNew={handleGenerateNew}
+                gridSize={gridSize}
+                setGridSize= {setGridSize}
+                setMargin= {setMargin}
+                margin={margin}
+                totalFigures={totalFigures}
+                setTotalFigures={setTotalFigures}/> 
         </div>
     )
 }
