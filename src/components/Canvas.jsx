@@ -4,7 +4,7 @@ import random from "canvas-sketch-util/random";
 import { lerp } from "canvas-sketch-util/math";
 
 
-function Canvas({margin, settings, points, palette, showGrid, totalFigures, randomizeColors}) {
+function Canvas({margin, settings, points, palette, showGrid, totalFigures, renderSeed}) {
 
     const canvasRef = useRef(null);
 
@@ -15,9 +15,11 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rand
         const sketch = () => {
             
             return ({ context, width, height }) => {
+                //Clear canvas
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, width, height);
                 
+                //Draw grid points
                 points.forEach(point =>{
                     context.beginPath();
                     context.arc(point[0],point[1],10,0,Math.PI*2);
@@ -25,8 +27,11 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rand
                     context.fill();
                 })
 
-                const used_points = new Set();
+                //Generate Shapes
                 if(!points || points.length <2) return;
+
+                const used_points = new Set();
+                
                 while (used_points.size < totalFigures * 2 && used_points.size < points.length) {
                     // console.log(used_points);
                     const [p1, p2] = random.shuffle(points).slice(0,2);
@@ -45,11 +50,9 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rand
                         context.lineTo(x3,y3);
                         const [x4, y4] = [p1[0],lerp(margin, settings.dimensions[1] -margin, 1)];
                         context.lineTo(x4,y4);
-                        // console.log([x3,y3],[x4,y4]);
                         context.closePath();
-                        // context.strokeStyle = 'black';
-                        // context.lineWidth = 5;
-                        // context.stroke();
+
+                        //Apply fill style and opacity
                         context.fillStyle = random.pick(palette);
                         const opacity = random.value();
                         context.filter = `opacity(${opacity})`;
@@ -66,7 +69,7 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rand
             canvas: canvasRef.current,});
         return () => sketchInstance.then((sketch) => sketch.unload()); // Cleanup on unmount
 
-    },[settings, margin, points, palette ]);
+    },[settings, margin, points, totalFigures, renderSeed ]);
 
 
 

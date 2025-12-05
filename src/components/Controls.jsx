@@ -5,6 +5,9 @@ import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import PaletteIcon from '@mui/icons-material/Palette';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockOutlineIcon from '@mui/icons-material/LockOutline';
+
 
 
 export default function Controls({
@@ -16,21 +19,20 @@ export default function Controls({
     setMargin,
     totalFigures,
     setTotalFigures,
-    handleGenerateNew}){
+    selectedPalette,
+    setSelectedPalette,
+    handleGenerateNew,
+    lockedPalette,
+    setLockedPalette}){
 
-    const [randomizeColors, setRandomizeColors] = useState(true); 
 
 
     const handleGridToggle = () => {
         toggleGrid();
     }
 
-    const handleRandomColor = () => {
-        setRandomizeColors(!randomizeColors);
-    }
-
     const generateNew = () => {       
-        handleGenerateNew(gridSize, margin, totalFigures, randomizeColors);
+        handleGenerateNew(gridSize, margin, totalFigures);
     }
 
     return(
@@ -80,11 +82,17 @@ export default function Controls({
             </div>
             <div id="color-palette">
                 <p className='sm:text-sm/6 text-left'>Colors:</p>
-                {randomizeColors ?  
-                <PaletteOutlinedIcon 
-                onClick={handleRandomColor}/> : 
-                <PaletteIcon
-                onClick={handleRandomColor} /> }
+                {lockedPalette ? 
+                <LockOutlineIcon 
+                onClick={()=> {
+                    setLockedPalette(!lockedPalette)}}
+                /> :
+                <LockOpenIcon 
+                onClick={()=> {
+                    setLockedPalette(!lockedPalette)}}
+                />}
+                <PaletteOutlinedIcon />
+
             </div>
             <div id="regenerate">
                 <p className='sm:text-sm/6 text-left'>Regenerate:</p>
