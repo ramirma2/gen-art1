@@ -38,7 +38,7 @@ const Canvas = forwardRef(({margin, settings, points, palette, showGrid, totalFi
         
         const sketch = () => {
             return ({ context, width, height }) => {
-                random.setSeed(renderSeed); //avoid rendering changes on same seed
+                random.setSeed(renderSeed); //avoid rerendering changing randomness
                 //Clear canvas
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, width, height);

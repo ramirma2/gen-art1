@@ -42,6 +42,7 @@ export default function Controls({
         <div className=" h-auto controls  bg-white fill-white shadow-md flex flex-col flex-nowrap gap-4 items-center m-2 p-4 rounded-lg">
 
             <div id="grid-display">
+                                <p className='sm:text-sm/6 text-left'>Show Grid:</p>
                {gridVisible ? 
                <GridOnIcon onClick={handleGridToggle}/> : 
                <GridOffIcon onClick={handleGridToggle}/>}
@@ -76,7 +77,7 @@ export default function Controls({
                     className = "w-12 py-.5 pl-1.5 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 border border-gray-200 rounded " />
             </div>
             <div id="total-shapes">
-            <p className='sm:text-sm/6 text-left'>Figures:</p>
+            <p className='sm:text-sm/6 text-center'>Figures:</p>
                 <DashboardCustomizeIcon />
                 <input type='number'
                         value={totalFigures}
@@ -113,9 +114,22 @@ export default function Controls({
                     onClick={(e)=> {
                         e.preventDefault(); // Prevent any default behavior
                         e.stopPropagation(); // Stop event bubbling
-                        console.log('Download icon clicked');
                         handleDownload();
                     }}/>
+                {/* <div className="flex gap-2">
+                    <button 
+                        onClick={() => handleDownload(".png")}
+                        className="text-xs px-2 py-1 border rounded hover:bg-gray-100"
+                    >
+                        PNG
+                    </button>
+                    <button 
+                        onClick={() => handleDownload(".jpg")}
+                        className="text-xs px-2 py-1 border rounded hover:bg-gray-100"
+                    >
+                        JPG
+                    </button> */}
+                {/* </div> */}
             </div>
         </div>
     )

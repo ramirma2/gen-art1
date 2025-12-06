@@ -55,7 +55,6 @@ export default function WorkArea() {
         
         // Only generate new palette if not locked
         if (!lockedPalette) {
-            console.log('Generating new palette');
             setPaletteKey(prev => prev + 1);
         }
         // } else {
@@ -86,10 +85,10 @@ export default function WorkArea() {
     }
 
     const handleDownload = async () => {
-        console.log('===== DOWNLOAD STARTED =====');
-        console.log('Current renderSeed:', renderSeed);
-        console.log('Current lockedPalette:', lockedPalette);
-        
+        // console.log('===== DOWNLOAD STARTED =====');
+        // console.log('Current renderSeed:', renderSeed);
+        // console.log('Current lockedPalette:', lockedPalette);
+
         if (canvasRef.current) {
             await canvasRef.current.exportCanvas({
                 prefix: 'generative-art',
