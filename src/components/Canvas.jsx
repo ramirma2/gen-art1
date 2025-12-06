@@ -1,20 +1,44 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import canvasSketch from "canvas-sketch";
 import random from "canvas-sketch-util/random";
 import { lerp } from "canvas-sketch-util/math";
 
 
-function Canvas({margin, settings, points, palette, showGrid, totalFigures, renderSeed}) {
+const Canvas = forwardRef(({margin, settings, points, palette, showGrid, totalFigures, renderSeed}, ref) => {
 
     const canvasRef = useRef(null);
+    const managerRef = useRef(null);
+
+    useEffect(() => {
+    if (managerRef.current) {
+        managerRef.current.render();
+    }
+    }, [renderSeed]);
+
+
+    // Expose export function to parent component
+    useImperativeHandle(ref, () => ({
+        exportCanvas: async (options = {}) => {
+            if (managerRef.current) {
+                const defaultOptions = {
+                    save: true,
+                    prefix: 'generative-art',
+                    ...options
+                };
+                // Use the current frame/render without triggering a new render
+                await managerRef.current.exportFrame(defaultOptions);
+            } else {
+                console.warn('Canvas manager not ready for export');
+            }
+        }
+    }), []); 
 
     useEffect(()=>{
-        if (!canvasRef.current) return;
-        
+        if (!canvasRef.current) return;        
         
         const sketch = () => {
-            
             return ({ context, width, height }) => {
+                random.setSeed(renderSeed); //avoid rendering changes on same seed
                 //Clear canvas
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, width, height);
@@ -22,7 +46,7 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rend
                 //Draw grid points
                 points.forEach(point =>{
                     context.beginPath();
-                    context.arc(point[0],point[1],10,0,Math.PI*2);
+                    context.arc(point[0],point[1],5,0,Math.PI*2);
                     context.fillStyle = showGrid ? 'gray' : 'white';
                     context.fill();
                 })
@@ -67,10 +91,15 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rend
         const sketchInstance = canvasSketch(sketch,{
             ...settings,
             canvas: canvasRef.current,});
+
+        // Store the manager instance for exports
+        sketchInstance.then((manager) => {
+            managerRef.current = manager;
+        });
+
         return () => sketchInstance.then((sketch) => sketch.unload()); // Cleanup on unmount
 
-    },[settings, margin, points, totalFigures, renderSeed ]);
-
+    },[settings, margin, points, totalFigures ]);
 
 
 
@@ -83,6 +112,6 @@ function Canvas({margin, settings, points, palette, showGrid, totalFigures, rend
             />
         </div>
     );
-}
+})
 
 export default Canvas;

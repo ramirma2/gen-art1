@@ -1,12 +1,12 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import Canvas from "./Canvas";
 import { useRandomPalette } from "../hooks/useRandomPalette";
 import { lerp } from "canvas-sketch-util/math";
 import Controls from './Controls'
-import { random } from "canvas-sketch-util";
 
 
 export default function WorkArea() {
+    const canvasRef = useRef(null);
 
     const [dimensions, setDimesions] = useState([2048,2048]);
     const [ margin, setMargin ] = useState(400);
@@ -85,11 +85,26 @@ export default function WorkArea() {
         return my_points;
     }
 
+    const handleDownload = async () => {
+        console.log('===== DOWNLOAD STARTED =====');
+        console.log('Current renderSeed:', renderSeed);
+        console.log('Current lockedPalette:', lockedPalette);
+        
+        if (canvasRef.current) {
+            await canvasRef.current.exportCanvas({
+                prefix: 'generative-art',
+                // suffix: '.png',
+                // frame: 0
+            });
+        }
+    };
+
 
 
     return(
         <div className="work-area grid grid-cols-[180px_minmax(900px,_2fr)_180px] gap-4 col-span-2">    
-            <Canvas 
+            <Canvas
+            ref={canvasRef}
             showGrid={showGrid}
             margin={margin} 
             settings={{dimensions,
@@ -113,6 +128,7 @@ export default function WorkArea() {
                 setSelectedPalette={setSelectedPalette}
                 lockedPalette={lockedPalette}
                 setLockedPalette={setLockedPalette}
+                handleDownload={handleDownload}
                 /> 
         </div>
     )

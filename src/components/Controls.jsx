@@ -7,6 +7,8 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockOutlineIcon from '@mui/icons-material/LockOutline';
+import DownloadIcon from '@mui/icons-material/Download';
+import Palette from './Palette';
 
 
 
@@ -23,7 +25,8 @@ export default function Controls({
     setSelectedPalette,
     handleGenerateNew,
     lockedPalette,
-    setLockedPalette}){
+    setLockedPalette,
+    handleDownload}){
 
 
 
@@ -36,7 +39,7 @@ export default function Controls({
     }
 
     return(
-        <div className=" max-w-30 h-auto controls  bg-white fill-white shadow-md flex flex-col flex-nowrap gap-4 items-center m-2 p-4 rounded-lg">
+        <div className=" h-auto controls  bg-white fill-white shadow-md flex flex-col flex-nowrap gap-4 items-center m-2 p-4 rounded-lg">
 
             <div id="grid-display">
                {gridVisible ? 
@@ -80,24 +83,39 @@ export default function Controls({
                         onChange= {((e) => setTotalFigures(parseInt(e.target.value)))}
                         className = "w-12 py-.5 pl-1.5 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 border border-gray-200 rounded" />
             </div>
-            <div id="color-palette">
-                <p className='sm:text-sm/6 text-left'>Colors:</p>
+            <div id="color-palette"
+                className='flex flex-wrap gap-1 items-center'>
+                <p className='w-full sm:text-sm/6 text-center'>Colors:</p>
                 {lockedPalette ? 
-                <LockOutlineIcon 
-                onClick={()=> {
-                    setLockedPalette(!lockedPalette)}}
-                /> :
-                <LockOpenIcon 
-                onClick={()=> {
-                    setLockedPalette(!lockedPalette)}}
-                />}
-                <PaletteOutlinedIcon />
-
+                <LockOutlineIcon
+                    className='w-1/2'
+                    onClick={()=> {
+                        setLockedPalette(!lockedPalette)}}
+                    /> :
+                <LockOpenIcon
+                    className='w-1/2' 
+                    onClick={()=> {
+                        setLockedPalette(!lockedPalette)}}
+                    />}
+                
+                    <Palette 
+                        colors={selectedPalette}
+                        className='w-1/2'/>
             </div>
             <div id="regenerate">
                 <p className='sm:text-sm/6 text-left'>Regenerate:</p>
                 <AutorenewIcon 
                 onClick={generateNew}/>
+            </div>
+            <div id="download-canvas">
+                <p className='sm:text-sm/6 text-left'>Download:</p>
+                <DownloadIcon 
+                    onClick={(e)=> {
+                        e.preventDefault(); // Prevent any default behavior
+                        e.stopPropagation(); // Stop event bubbling
+                        console.log('Download icon clicked');
+                        handleDownload();
+                    }}/>
             </div>
         </div>
     )
