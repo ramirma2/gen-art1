@@ -1,8 +1,8 @@
-# Art Playground with AI
+#gen-art1
 
 A generative art tool that celebrates the beauty of randomness by creating unique geometric compositions. Every generation is a one-of-a-kind piece where figure placement, color selection, and opacity are determined by chance—embracing the unexpected.
 
-![Art Playground Demo](demo.gif) <!-- Add a demo gif/screenshot here -->
+
 
 ## Features
 
@@ -82,39 +82,12 @@ The application will be available at `http://localhost:5173`
 ## Tech Stack
 
 - **Frontend**: React 19
-- **Canvas Libraries**: canvas-sketch, p5.js
+- **Canvas Libraries**: canvas-sketch
 - **Styling**: Tailwind CSS, Material-UI
 - **Utilities**: canvas-sketch-util, nice-color-palettes
 - **Build Tool**: Vite
 - **HTTP Client**: Axios
 
-## Project Structure
-
-```
-art-playground-w-ai/
-├── src/
-│   ├── components/
-│   │   ├── Canvas.jsx          # Main canvas rendering
-│   │   ├── Controls.jsx        # UI controls panel
-│   │   ├── Palette.jsx         # Color palette display
-│   │   └── WorkArea.jsx        # Main workspace component
-│   ├── hooks/
-│   │   └── useRandomPalette.js # Custom hook for palette generation
-│   ├── App.jsx
-│   └── main.jsx
-├── package.json
-└── vite.config.js
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## Future Enhancements
 
@@ -124,13 +97,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - [ ] SVG export option
 - [ ] Gallery view to save and compare multiple generations
 - [ ] Undo/redo functionality
-- [ ] Custom color palette input
 
 
-## Acknowledgments
-
-- [canvas-sketch](https://github.com/mattdesl/canvas-sketch) by Matt DesLauriers
-- [nice-color-palettes](https://github.com/Jam3/nice-color-palettes) by Jam3
 
 ---
 
