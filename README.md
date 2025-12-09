@@ -1,4 +1,4 @@
-#gen-art1
+# gen-art1
 
 A generative art tool that celebrates the beauty of randomness by creating unique geometric compositions. Every generation is a one-of-a-kind piece where figure placement, color selection, and opacity are determined by chance—embracing the unexpected.
 
