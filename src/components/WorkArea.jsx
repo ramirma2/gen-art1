@@ -9,7 +9,7 @@ export default function WorkArea() {
     const canvasRef = useRef(null);
 
     const [dimensions, setDimesions] = useState([2048,2048]);
-    const [ margin, setMargin ] = useState(400);
+    const [margin, setMargin ] = useState(400);
     const [points, setPoints ] = useState([]);
     const [paletteKey, setPaletteKey] = useState(0);//key to re-generate random palette
     const randomPalette = useRandomPalette(paletteKey);//hook to get random palette
@@ -46,12 +46,6 @@ export default function WorkArea() {
         // console.log('Generate new - Locked:', lockedPalette);
         setMargin(margin);
         setTotalFigures(totalFigures);
-
-        //update palette if not locked
-        if(!lockedPalette){
-            setPaletteKey(paletteKey + 1);
-            // setSelectedPalette(randomPalette);
-        }
         
         // Only generate new palette if not locked
         if (!lockedPalette) {
